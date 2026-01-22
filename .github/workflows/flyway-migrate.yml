@@ -36,10 +36,9 @@ jobs:
 
       - name: Run Flyway Migrate
         run: |
-          flyway \
-            -url=jdbc:postgresql://localhost:5432/testdb \
-            -user=postgres \
-            -password=postgres \
-            -locations=filesystem:${GITHUB_WORKSPACE}/migrations \
+         flyway -url=jdbc:postgresql://localhost:5432/testdb \
+           -user=postgres \
+           -password=postgres \
+           -locations=filesystem:${GITHUB_WORKSPACE}/migrations \
+           migrate
 
-            migrate
