@@ -20,3 +20,4 @@ jobs:
           user: ${{ secrets.FLYWAY_USER }}
           password: ${{ secrets.FLYWAY_PASSWORD }}
           locations: filesystem:sql
+
