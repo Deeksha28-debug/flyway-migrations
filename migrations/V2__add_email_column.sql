@@ -1,0 +1,2 @@
+ALTER TABLE employee1
+ADD COLUMN email TEXT;
