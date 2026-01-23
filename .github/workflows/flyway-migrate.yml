@@ -1,4 +1,4 @@
-name: Flyway Database Migration
+name: Flyway CI with PostgreSQL Service
 
 on:
   push:
@@ -8,6 +8,21 @@ on:
 jobs:
   migrate:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout repository
@@ -21,11 +36,9 @@ jobs:
 
       - name: Run Flyway Migrate
         run: |
-          flyway \
-            -url="${{ secrets.FLYWAY_URL }}" \
-            -user="${{ secrets.FLYWAY_USER }}" \
-            -password="${{ secrets.FLYWAY_PASSWORD }}" \
-            -locations=filesystem:sql \
-            migrate
-
+         flyway -url=jdbc:postgresql://localhost:5432/testdb \
+           -user=postgres \
+           -password=postgres \
+           -locations=filesystem:${GITHUB_WORKSPACE}/migrations \
+           migrate
 
