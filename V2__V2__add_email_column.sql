@@ -1,2 +1,2 @@
-ALTER TABLE employee1
+ALTER TABLE users
 ADD COLUMN email TEXT;
